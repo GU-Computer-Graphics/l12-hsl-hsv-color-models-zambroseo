@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <title>Stars Demo</title>
+  <link href="./css/307.css" rel="stylesheet" type="text/css">
+  <style>
+    /* feel free to style the canvas any way you want. If you want it to
+      use the entire window, set width: 100% and height: 100%. */
+    canvas {
+      display: block;
+      margin: 10px auto;
+      width: 80%;
+      height: 500px;
+    }
+  </style>
+
+  <script src="./js/three.js"></script>
+  <script src="./js/SceneUtils.js"></script>
+  <script src="./js/OrbitControls.js"></script>
+  <script src="./js/tw.js"></script>
+
+</head>
+
+<body>
+  <h1>Stars Demo</h1>
+  <script>
+    // We always need a scene
+
+    var scene = new THREE.Scene();
+
+    // ====================================================================
+
+    // function to create a Geometry for a three-pointed star with four triangular faces
+    // size is the radius of the circle that circumscribes the star
+
+    var size = 50;
+
+    function starGeometry(size) {
+      var starGeom = new THREE.Geometry();
+      var angle;
+      var lens = [size, size / 4];
+      for (var i = 0; i < 6; i++) {
+        angle = i * (Math.PI / 3);
+        len = lens[i % 2];
+        starGeom.vertices.push(new THREE.Vector3(len * Math.cos(angle), len * Math.sin(angle)));
+      }
+      starGeom.faces.push(new THREE.Face3(0, 1, 5));
+      starGeom.faces.push(new THREE.Face3(1, 2, 3));
+      starGeom.faces.push(new THREE.Face3(3, 4, 5));
+      starGeom.faces.push(new THREE.Face3(1, 3, 5));
+      return starGeom;
+    }
+
+    // ====================================================================
+
+    // vector of colors to use for the 6 vertices of the star geometry
+
+    starGeom1 = starGeometry(size)
+    var starMaterial1 = new THREE.MeshBasicMaterial(
+                          {color: new THREE.Color("yellow"),
+                                   side: THREE.DoubleSide} );
+
+    starMesh1 = new THREE.Mesh(starGeom1, starMaterial1);
+    starMesh1.position.set(-50, 60, 0)
+    scene.add(starMesh1)
+
+
+    starGeom2 = starGeometry(size)
+    var starMaterial2 = new THREE.MeshBasicMaterial(
+                          {color: new THREE.Color("orange"),
+                                   side: THREE.DoubleSide} );
+
+    starMesh2 = new THREE.Mesh(starGeom2, starMaterial2);
+    starMesh2.position.set(50, 60, 0)
+    scene.add(starMesh2)
+
+
+    var colors3 = [new THREE.Color("red"), new THREE.Color("orange"), new THREE.Color("yellow"),
+    new THREE.Color("green"), new THREE.Color("blue"), new THREE.Color("violet")];
+
+    starGeom3 = starGeometry(size)
+    starGeom3.vertexColors = colors3
+    TW.computeFaceColors(starGeom3)
+
+    var starMaterial3 = new THREE.MeshBasicMaterial(
+                          {vertexColors: THREE.VertexColors,
+                                   side: THREE.DoubleSide} );
+
+    starMesh3 = new THREE.Mesh(starGeom3, starMaterial3);
+    scene.add(starMesh3)
+
+    starGeom4 = starGeometry(size)
+    var starMaterial4 = new THREE.MeshBasicMaterial(
+                          {color: new THREE.Color("green"),
+                                   side: THREE.DoubleSide} );
+
+    starMesh4 = new THREE.Mesh(starGeom4, starMaterial4);
+    starMesh4.position.set(-90, 0, 0)
+    scene.add(starMesh4)
+
+    starGeom5 = starGeometry(size)
+    var starMaterial5 = new THREE.MeshBasicMaterial(
+                          {color: new THREE.Color("red"),
+                                   side: THREE.DoubleSide} );
+
+    starMesh5 = new THREE.Mesh(starGeom5, starMaterial5);
+    starMesh5.position.set(90, 0, 0)
+    scene.add(starMesh5)
+
+    starGeom6 = starGeometry(size)
+    var starMaterial6 = new THREE.MeshBasicMaterial(
+                          {color: new THREE.Color("blue"),
+                                   side: THREE.DoubleSide} );
+
+    starMesh6 = new THREE.Mesh(starGeom6, starMaterial6);
+    starMesh6.position.set(-50, -60, 0)
+    scene.add(starMesh6)
+
+    starGeom7 = starGeometry(size)
+    var starMaterial7 = new THREE.MeshBasicMaterial(
+                          {color: new THREE.Color("magenta"),
+                                   side: THREE.DoubleSide} );
+
+    starMesh7 = new THREE.Mesh(starGeom7, starMaterial7);
+    starMesh7.position.set(50, -60, 0)
+    scene.add(starMesh7)
+
+    // add code to create a star using color interpolation of the triangular faces
+    // and add it to the scene
+
+    // ================================================================
+
+    var renderer = new THREE.WebGLRenderer();
+
+    TW.mainInit(renderer, scene);
+
+    TW.cameraSetup(renderer,
+      scene,
+      {
+        minx: -size, maxx: size,
+        miny: -size, maxy: size,
+        minz: 5, maxz: 5
+      });
+  </script>
+  <!-- <canvas width="704" height="500" style="width: 704px; height: 500px;"></canvas> -->
+
+
+</body>
+
+</html>
